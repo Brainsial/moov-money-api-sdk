@@ -9,6 +9,7 @@
   },
   "imports": {
     "#common/*": "./src/common/*.js",
+    "#config/*": "./src/config/*.js",
     "#exception/*": "./src/exception/*.js",
     "#contract/*": "./src/contract/*.js",
     "#type/*": "./src/type/*.js",

@@ -1,24 +1,64 @@
 import { AppConfigContract } from "#contract/app_config_contract";
-import { AddConfigData } from "#type/add_config_data";
+import { APIConfigData } from "#type/api_config_data";
 
 export class ApiConfig implements AppConfigContract {
 
-    constructor(private configData: AddConfigData) { }
+    private config : ApiConfigDataUsable
+
+    constructor(configData: APIConfigData) { 
+        this.config = {
+            username: configData.username,
+            password: configData.password,
+            baseUrl: configData.baseUrl,
+            encryptionKey: configData.encryptionKey || 'tlc12345tlc12345tlc12345tlc12345',
+            requestTimeout: configData.requestTimeout || 60
+        }
+    }
     
     get username(): string {
-        return this.configData.username
+        return this.config.username
+    }
+
+    set username(username: string) {
+        this.config.username = username
     }
 
     get password(): string {
-        return this.configData.password
+        return this.config.password
     }
+
+    set password(password: string) {
+        this.config.password = password
+    }
+
     get baseUrl(): string {
-        return this.configData.baseUrl
+        return this.config.baseUrl
     }
+
+    set baseUrl(baseUrl: string) {
+        this.config.baseUrl = baseUrl
+    }
+
     get encryptionKey(): string {
-        return this.configData.encryptionKey || 'tlc12345tlc12345tlc12345tlc12345'
+        return this.config.encryptionKey
     }
+
+    set encryptionKey(encryptionKey: string) {
+        this.config.encryptionKey = encryptionKey
+    }
+
     get requestTimeout(): number {
-        return this.configData.requestTimeout || 60
+        return this.config.requestTimeout
     }
+
+    set requestTimeout(requestTimeout: number) {
+        this.config.requestTimeout = requestTimeout
+    }
+
+    get isValid(): boolean {
+        return this.config.username.length > 0 && this.config.password.length > 0 && this.config.baseUrl.length > 0
+    }
+
 }
+
+type ApiConfigDataUsable = Required<APIConfigData>

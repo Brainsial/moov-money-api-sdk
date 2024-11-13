@@ -19,7 +19,17 @@
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
     "noImplicitThis": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+
+    "paths": {
+      "#common/*": ["./src/common/*.js"],
+      "#config/*": ["./src/config/*.js"],
+      "#exception/*": ["./src/exception/*.js"],
+      "#contract/*": ["./src/contract/*.js"],
+      "#type/*": ["./src/type/*.js"],
+      "#security/*": ["./src/security/*.js"],
+      "#helper/*": ["./src/helper/*.js"],
+    },
   },
   "include": [
     "src/**/*",
@@ -33,12 +43,5 @@
   "ts-node": {
     "swc": true
   },
-  "paths": {
-    "#common/*": ["./src/common/*.js"],
-    "#exception/*": ["./src/exception/*.js"],
-    "#contract/*": ["./src/contract/*.js"],
-    "#type/*": ["./src/type/*.js"],
-    "#security/*": ["./src/security/*.js"],
-    "#helper/*": ["./src/helper/*.js"],
-  },
+  
 }
