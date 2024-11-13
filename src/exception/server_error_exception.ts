@@ -1,15 +1,11 @@
-export interface ServerErrorException extends Error {
-
-}
-
-export function ServerErrorException(message: string): ServerErrorException {
-    let error = new Error(message) as ServerErrorException
-    error.stack = 'ServerErrorException: ' + message
-    error.name = 'ServerErrorException'
-    error.message = message
-    error.cause = message
-
-    return error
+export class ServerErrorException extends Error {
+    constructor(message: string) {
+        super(message)
+        
+        this.cause = message
+        this.name = 'ServerErrorException'
+        this.stack = 'ServerErrorException: ' + message
+    }
 }
 
 export function isServerErrorException(error: Error): error is ServerErrorException {
