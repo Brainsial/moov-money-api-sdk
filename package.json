@@ -5,13 +5,14 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest"
   },
   "imports": {
     "#common/*": "./src/common/*.js",
     "#exception/*": "./src/exception/*.js",
     "#contract/*": "./src/contract/*.js",
-    "#type/*": "./src/type/*.js"
+    "#type/*": "./src/type/*.js",
+    "#helper/*": "./src/helper/*.js"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,12 @@
   "homepage": "https://github.com/Brainsial/moov-money-api-sdk#readme",
   "devDependencies": {
     "@types/node": "^22.9.0",
-    "typescript": "^5.6.3"
+    "@types/xml2js": "^0.4.14",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.4"
+  },
+  "dependencies": {
+    "xml-formatter": "^3.6.3",
+    "xml2js": "^0.6.2"
   }
 }

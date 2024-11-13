@@ -3,7 +3,7 @@
     "target": "ESNext",
     "module": "NodeNext",
     "lib": ["ESNext"],
-    "rootDir": "./src",
+    "rootDir": ".",
     "outDir": "./dist",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -21,6 +21,15 @@
     "noImplicitThis": true,
     "skipLibCheck": true
   },
+  "include": [
+    "src/**/*",
+    "tests/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ],
   "ts-node": {
     "swc": true
   },
@@ -29,5 +38,6 @@
     "#exception/*": ["./src/exception/*.js"],
     "#contract/*": ["./src/contract/*.js"],
     "#type/*": ["./src/type/*.js"],
+    "#helper/*": ["./src/helper/*.js"],
   },
 }
