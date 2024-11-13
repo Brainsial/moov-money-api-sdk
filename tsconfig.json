@@ -38,6 +38,7 @@
     "#exception/*": ["./src/exception/*.js"],
     "#contract/*": ["./src/contract/*.js"],
     "#type/*": ["./src/type/*.js"],
+    "#security/*": ["./src/security/*.js"],
     "#helper/*": ["./src/helper/*.js"],
   },
 }
