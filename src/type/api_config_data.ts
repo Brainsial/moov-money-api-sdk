@@ -1,4 +1,4 @@
-export type AddConfigData = {
+export type APIConfigData = {
     /**
      * Your Moov Money API username.
      */
