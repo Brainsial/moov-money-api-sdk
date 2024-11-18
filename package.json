@@ -14,7 +14,8 @@
     "#contract/*": "./src/contract/*.js",
     "#type/*": "./src/type/*.js",
     "#security/*": "./src/security/*.js",
-    "#helper/*": "./src/helper/*.js"
+    "#helper/*": "./src/helper/*.js",
+    "#server/*": "./servers/*.js"
   },
   "repository": {
     "type": "git",
@@ -33,7 +34,6 @@
     "vitest": "^2.1.4"
   },
   "dependencies": {
-    "xml-formatter": "^3.6.3",
     "xml2js": "^0.6.2"
   }
 }

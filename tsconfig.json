@@ -29,16 +29,19 @@
       "#type/*": ["./src/type/*.js"],
       "#security/*": ["./src/security/*.js"],
       "#helper/*": ["./src/helper/*.js"],
+      "#sercer/*": ["./servers/*.js"],
     },
   },
   "include": [
     "src/**/*",
-    "tests/**/*"
+    "tests/**/*",
+    "servers/**/*"
   ],
   "exclude": [
     "node_modules",
     "**/*.spec.ts",
-    "**/*.test.ts"
+    "**/*.test.ts",
+    "**/*.server.ts"
   ],
   "ts-node": {
     "swc": true
