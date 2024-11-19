@@ -1,5 +1,5 @@
+import { ServerErrorException } from "#exception/server_error_exception";
 import { SoapConfig } from "#type/soap_config";
-import { SoapResponse } from "#type/soap_response";
 import { XMLFormater } from "./xml_formater";
 
 export class SoapClient {
@@ -17,7 +17,7 @@ export class SoapClient {
         }
     }
 
-    async get<T>(params?: any): Promise<SoapResponse<T>> {
+    async get<T>(params?: any): Promise<T> {
         const url = new URL(this._config.baseUrl)
 
         if (params) {
@@ -29,15 +29,15 @@ export class SoapClient {
         return this.request<T>('GET', url.href)
     }
 
-    async post<T>(body: string): Promise<SoapResponse<T>> {
+    async post<T>(body: string): Promise<T>{
         return this.request<T>('POST', this._config.baseUrl, body)    
     }
 
-    async put<T>(body: string): Promise<SoapResponse<T>> {
+    async put<T>(body: string): Promise<T> {
         return this.request<T>('PUT', this._config.baseUrl, body)    
     }
 
-    async delete<T>(params?: any): Promise<SoapResponse<T>> {
+    async delete<T>(params?: any): Promise<T> {
         const url = new URL(this._config.baseUrl)
 
         if (params) {
@@ -50,9 +50,8 @@ export class SoapClient {
     }
 
 
-    private async request<T>(method: 'GET' | 'POST' | 'PUT' | 'DELETE', url: string, body?: string): Promise<SoapResponse<T>> {
+    private async request<T>(method: 'GET' | 'POST' | 'PUT' | 'DELETE', url: string, body?: string): Promise<T> {
         
-
         try {
             const controller = new AbortController()
             const timeoutId = setTimeout(() => controller.abort(), this._config.timeout)
@@ -74,15 +73,9 @@ export class SoapClient {
 
             const data = await XMLFormater.xmlToObject(xml)
     
-            return {
-                success: true,
-                data: data as T
-            }
+            return data as T
         } catch (error) {
-            return {
-                success: false,
-                error: error instanceof Error ? error.message : 'Something went wrong'
-            }
+            throw new ServerErrorException(error instanceof Error ? error.message : String(error))
         }
         
     }
