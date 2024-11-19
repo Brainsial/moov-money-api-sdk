@@ -9,16 +9,15 @@ export class SoapClient {
         this._config = {
             timeout: 60000,
             headers: {
-                'Content-Type': 'text/xml; charset=utf-8',
+                // 'Content-Type': 'text/xml; charset=utf-8',
+                'Content-Type': 'application/soap+xml; charset=utf-8',
                 'accept': 'text/xml'
             },
             ...config
         }
     }
 
-    async get<T>(action: string, params?: any): Promise<SoapResponse<T>> {
-        console.log(action);
-        
+    async get<T>(params?: any): Promise<SoapResponse<T>> {
         const url = new URL(this._config.baseUrl)
 
         if (params) {
@@ -30,19 +29,15 @@ export class SoapClient {
         return this.request<T>('GET', url.href)
     }
 
-    async post<T>(action: string, body: any): Promise<SoapResponse<T>> {
-        const soapEnvelop = XMLFormater.objectToSoapEnvelop(action, body)
-        return this.request<T>('POST', this._config.baseUrl, soapEnvelop)    
+    async post<T>(body: string): Promise<SoapResponse<T>> {
+        return this.request<T>('POST', this._config.baseUrl, body)    
     }
 
-    async put<T>(action: string, body: any): Promise<SoapResponse<T>> {
-        const soapEnvelop = XMLFormater.objectToSoapEnvelop(action, body)
-        return this.request<T>('PUT', this._config.baseUrl, soapEnvelop)    
+    async put<T>(body: string): Promise<SoapResponse<T>> {
+        return this.request<T>('PUT', this._config.baseUrl, body)    
     }
 
-    async delete<T>(action: string, params?: any): Promise<SoapResponse<T>> {
-        console.log(action);
-        
+    async delete<T>(params?: any): Promise<SoapResponse<T>> {
         const url = new URL(this._config.baseUrl)
 
         if (params) {
