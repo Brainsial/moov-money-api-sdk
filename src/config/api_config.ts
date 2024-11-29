@@ -1,3 +1,4 @@
+import { StatusMessages } from "#common/interfaces/status_messages";
 import { AppConfigContract } from "#contract/app_config_contract";
 import { APIConfigData } from "#type/api_config_data";
 
@@ -10,6 +11,7 @@ export class ApiConfig implements AppConfigContract {
             username: configData.username,
             password: configData.password,
             baseUrl: configData.baseUrl,
+            language: configData.language ?? 'en',
             encryptionKey: configData.encryptionKey || 'tlc12345tlc12345tlc12345tlc12345',
             requestTimeout: configData.requestTimeout || 60
         }
@@ -29,6 +31,14 @@ export class ApiConfig implements AppConfigContract {
 
     set password(password: string) {
         this.config.password = password
+    }
+
+    get language(): keyof StatusMessages {
+        return this.config.language
+    }
+
+    set language(language: keyof StatusMessages) {
+        this.config.language = language
     }
 
     get baseUrl(): string {
