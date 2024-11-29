@@ -1,11 +1,10 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import { SoapMethodsTestServer } from '#server/soap_methods_test.server'
 import { SoapClient } from '#helper/soap_client'
 import { XMLFormater } from '#helper/xml_formater'
 
-const server = new SoapMethodsTestServer().start()
-
 describe('SoapClient tests', () => {
+    let server = new SoapMethodsTestServer()
     const client = new SoapClient({ baseUrl: `http://localhost:${server.port}`})
 
     type Response = {
@@ -14,6 +13,15 @@ describe('SoapClient tests', () => {
             message: string
         }
     }
+
+    beforeAll(() => {
+        server = server.start()
+    })
+
+    afterAll(() => {
+        server.stop()
+    })
+
 
     it('Should return the correct response in Get method ', async () => {
         const response = await client.get<Response>() 

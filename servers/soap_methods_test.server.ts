@@ -26,10 +26,7 @@ export class SoapMethodsTestServer extends DefaultServer {
                         method: method || 'NONE',
                         message: body.length ? 'Body received' : 'Body empty' 
                     }))
-
-                    console.log({body});
                     
-
                     res.end()
                 })
 

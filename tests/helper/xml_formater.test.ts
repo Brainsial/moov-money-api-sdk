@@ -65,14 +65,14 @@ describe('XML Fiormater tests', () => {
 
         expect(xml).toMatchInlineSnapshot(`
           "<?xml version="1.0" encoding="utf-16"?>
-                      <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope" >
-                          <soap:Header/>
-                          <soap:Body>
-                              <action>
-                                  <name>John</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address>
-                              </action>
-                          </soap:Body>
-                      </soap:Envelope>
+                  <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope" >
+                      <soap:Header/>
+                      <soap:Body>
+                          <action>
+                              <name>John</name><age>30</age><address><street>123 Main St</street><city>Anytown</city><state>CA</state><zip>12345</zip></address>
+                          </action>
+                      </soap:Body>
+                  </soap:Envelope>
                   "
         `)
     })
