@@ -27,6 +27,8 @@
       "#exception/*": ["./src/exception/*.js"],
       "#contract/*": ["./src/contract/*.js"],
       "#type/*": ["./src/type/*.js"],
+      "#data/*": ["./src/data/*.js"],
+      "#action/*": ["./src/action/*.js"],
       "#security/*": ["./src/security/*.js"],
       "#helper/*": ["./src/helper/*.js"],
       "#sercer/*": ["./servers/*.js"],
