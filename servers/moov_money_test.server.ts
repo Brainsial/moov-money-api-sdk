@@ -1,4 +1,3 @@
-import { XMLFormater } from "#helper/xml_formater";
 import { DefaultServer } from "./default.server";
 
 export class MoovMoneyTestServer extends DefaultServer {
@@ -29,6 +28,7 @@ export class MoovMoneyTestServer extends DefaultServer {
                 body = Buffer.concat(data).toString()
 
                 body = body.trim().match(/<(api:\s*\w+)>[\s\S]*?<\/\1>/)?.at(0) ?? body.trim()
+                res.statusCode = 200
                 res.write(this.process(body))
                 res.end()
             })
@@ -39,21 +39,45 @@ export class MoovMoneyTestServer extends DefaultServer {
 
     private process(body: string): string {
         if (body.includes('api:Push')) {
-            return `<?xml version="1.0" encoding="utf-16"?>
-            <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-                <soap:Body>
-                    <ns2:transferFloozResponse xmlns:ns2="http://tlc.com.ph/">
-                        <return>
-                            <status>0</status>
-                            <message>SUCCESS</message>
-                            <referenceid>0009993544647</referenceid>
-                        </return>
-                    </ns2:transferAccountResponse>
-                </soap:Body>
-            </soap:Envelope>`
+            return this.pushTransactionResponse()
+        } else if (body.includes('api:getTransactionStatus>')) {
+            return this.transactionStatusResponse()
         }
 
         return ''
+    }
+
+    private pushTransactionResponse() {
+        return this.responseBody(
+            'transferFloozResponse', 
+            `<return>
+                <status>0</status>
+                <message>SUCCESS</message>
+                <referenceid>0009993544647</referenceid>
+            </return>`
+        )
+    }
+
+    private transactionStatusResponse() {
+        return this.responseBody(
+            'getTransactionStatusResponse', 
+            `<response>
+                <description>SUCCESS</description>
+                <referenceid>020190503000000</referenceid>
+                <status>0</status>
+            </response>`
+        )
+    }
+
+    private responseBody(action: string, body: string) {
+        return `<?xml version="1.0" encoding="utf-16"?>
+        <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+            <soap:Body>
+                <ns2:${action} xmlns:ns2="http://tlc.com.ph/">
+                    ${body}
+                </ns2:${action}>
+            </soap:Body>
+        </soap:Envelope>`
     }
 
 }
