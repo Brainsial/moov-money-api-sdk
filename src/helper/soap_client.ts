@@ -65,7 +65,7 @@ export class SoapClient {
     
             clearTimeout(timeoutId)
     
-            if (!response.ok) throw new Error(`[${response.status}] ${response.statusText}`)
+            if (!response.ok) throw new ServerErrorException(`[${response.status}] ${response.statusText}`)
     
             let xml = await response.text()
             
