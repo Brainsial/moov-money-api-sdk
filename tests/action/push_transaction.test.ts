@@ -1,13 +1,13 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 
-import { PuchTracsaction }  from '#action/puch_transaction';
+import { PushTracsaction }  from '#action/push_transaction';
 import { SoapClient } from '#helper/soap_client';
 import { BadConfigurationException } from '#exception/bad_configuration_exception';
 import { MoovMoneyTestServer } from '#server/moov_money_test.server';
 
 describe('PushTransaction tests', () => {
     let server = new MoovMoneyTestServer()
-    let action = PuchTracsaction.init(new SoapClient({ baseUrl: `http://localhost:${server.port}`}))
+    let action = PushTracsaction.init(new SoapClient({ baseUrl: `http://localhost:${server.port}`}))
 
     beforeAll(() => {
         server = server.start()

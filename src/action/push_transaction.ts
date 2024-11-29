@@ -7,11 +7,11 @@ import { SoapClient } from "#helper/soap_client"
 import { XMLFormater } from "#helper/xml_formater"
 import { BasicActionResponse } from "#type/basic_action_response"
 
-export class PuchTracsaction implements ActionContract<PuchTracsactionRequest, PuchTracsactionResponse> {
+export class PushTracsaction implements ActionContract<PushTracsactionRequest, PushTracsactionResponse> {
 
     constructor(
         private _soapClient: SoapClient, 
-        private _data?: PuchTracsactionRequest, 
+        private _data?: PushTracsactionRequest, 
         private action = 'api:Push',
         private _apiDomain: string = 'xmlns:api="http://api.merchant.tlc.com/"',
         private _language: keyof StatusMessages = 'en'
@@ -31,7 +31,7 @@ export class PuchTracsaction implements ActionContract<PuchTracsactionRequest, P
         return this
     }
 
-    data(data: PuchTracsactionRequest): this {
+    data(data: PushTracsactionRequest): this {
         this._data = data;
         return  this
     }
@@ -50,20 +50,20 @@ export class PuchTracsaction implements ActionContract<PuchTracsactionRequest, P
         return XMLFormater.objectToSoapEnvelop(this.action, requestData, [this._apiDomain], 'soapenv')
     }
 
-    public async execute(): Promise<ApiResponse<PuchTracsactionResponse>> {
+    public async execute(): Promise<ApiResponse<PushTracsactionResponse>> {
         if (!this._data) throw new BadConfigurationException('Data is not defined')
         if (!this._soapClient) throw new BadConfigurationException('Soap client is not defined')
         
-        const response = await this._soapClient.post<PuchTracsactionResult>(this.requestXml)
+        const response = await this._soapClient.post<PushTracsactionResult>(this.requestXml)
 
         if ( !response ) throw new ServerErrorException('Response is not defined')
 
-        return new ApiResponse<PuchTracsactionResponse>(response.return, this._language)
+        return new ApiResponse<PushTracsactionResponse>(response.return, this._language)
     }
 }
 
 
-export type PuchTracsactionRequest = {
+export type PushTracsactionRequest = {
     token: string
     msisdn: string
     message: string
@@ -73,16 +73,16 @@ export type PuchTracsactionRequest = {
     fee?: number
 }
 
-export type PuchTracsactionResponse = BasicActionResponse & {
+export type PushTracsactionResponse = BasicActionResponse & {
     message: string
 }
 
-type PushTransactionApiRequest = Omit<PuchTracsactionRequest, 'data1|data2'> & {
+type PushTransactionApiRequest = Omit<PushTracsactionRequest, 'data1|data2'> & {
     // fee: number
     externaldata1: string
     externaldata2: string
 }
 
-type PuchTracsactionResult = {
-    return : PuchTracsactionResponse
+type PushTracsactionResult = {
+    return : PushTracsactionResponse
 }
