@@ -36,4 +36,4 @@ export class EnryptionAgent implements EncryptorContract {
     }
 }
 
-type encryptionData = Required<Omit<APIConfigData, 'requestTimeout' | 'baseUrl'>> 
+type encryptionData = Required<Omit<APIConfigData, 'requestTimeout' | 'baseUrl' | 'language'>> 
