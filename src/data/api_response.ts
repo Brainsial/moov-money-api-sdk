@@ -1,9 +1,9 @@
 import { ApiStatus } from "#common/api_status";
+import { StatusCode } from "#common/data/status_code";
 import { StatusMessages } from "#common/interfaces/status_messages";
 import { ApiResponseContract } from "#contract/api_response_contract";
-import { BasicActionResponse } from "#type/basic_action_response";
 
-export class ApiResponse<T extends BasicActionResponse> implements ApiResponseContract<T> {
+export class ApiResponse<T extends {status: StatusCode}> implements ApiResponseContract<T> {
     private _apiStatus: ApiStatus
 
     constructor(private _data:  T, language: keyof StatusMessages = 'en') {
