@@ -3,6 +3,7 @@ export class DefaultServer {
 
     protected _server: Server
     protected _port: number = 3000
+    protected _started: boolean = false
 
     constructor() {
         this._server = createServer()
@@ -11,12 +12,17 @@ export class DefaultServer {
     public start() {
         this._server.listen(this._port, '0.0.0.0')
 
-        this._server.on('error', (err: NodeJS.ErrnoException) => {
-            if (err.code === 'EADDRINUSE') {
-                this._port++
-                this.start()
-            }
-        })
+        if (!this._started) {
+            this._server.on('error', (err: NodeJS.ErrnoException) => {
+                if (err.code === 'EADDRINUSE') {
+                    this._port++
+                    return this.start()
+                }
+            })
+
+            this._started = true
+        }
+
 
         this._server.on('listening', () => {
             console.info(`Server started on port ${this._port}`);
@@ -37,5 +43,9 @@ export class DefaultServer {
 
     public get port(): number {
         return this._port
+    }
+
+    get started(): boolean {
+        return this._started
     }
 }

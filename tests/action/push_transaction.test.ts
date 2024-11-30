@@ -1,21 +1,11 @@
-import { describe, it, expect, beforeAll, afterAll } from 'vitest'
+import { describe, it, expect} from 'vitest'
 
 import { PushTracsaction }  from '#action/push_transaction';
 import { SoapClient } from '#helper/soap_client';
 import { BadConfigurationException } from '#exception/bad_configuration_exception';
-import { MoovMoneyTestServer } from '#server/moov_money_test.server';
 
 describe('PushTransaction tests', () => {
-    let server = new MoovMoneyTestServer()
-    let action = PushTracsaction.init(new SoapClient({ baseUrl: `http://localhost:${server.port}`}))
-
-    beforeAll(() => {
-        server = server.start()
-    })
-
-    afterAll(() => {
-        server.stop()
-    })
+    let action = PushTracsaction.init(new SoapClient({ baseUrl: `http://localhost:3355`}))
 
 
     it('Should throw an error when data is not provided', async () => {
