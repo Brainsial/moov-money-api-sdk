@@ -46,6 +46,8 @@ export class MoovMoneyTestServer extends DefaultServer {
             return this.transferFloozResponse()
         } else if (body.includes('api:getBalance')) {
             return this.subscriberBalanceResponse()
+        } else if (body.includes('api:getMobileAccountStatus')) {
+            return this.mobileStatusResponse()
         }
 
         return ''
@@ -96,6 +98,27 @@ export class MoovMoneyTestServer extends DefaultServer {
                 <balance>382222</balance>
                 <message>SUCCESS</message>
                 <status>0</status>
+            </return>`
+        )
+    }
+
+    private mobileStatusResponse() {
+        return this.responseBody(
+            'getMobileAccountStatusResponse', 
+            `<return>
+                <accounttype>MCOM</accounttype>
+                <allowedtransfer>0</allowedtransfer>
+                <city>COTONOU</city>
+                <dateofbirth>1987-11-01 00:00:00.0</dateofbirth>
+                <firstname>REUGIE</firstname>
+                <lastname>ARIZALA</lastname>
+                <message>SUCCESS</message>
+                <msisdn>22994512412</msisdn>
+                <region>ATLANTIQUE</region>
+                <secondname></secondname>
+                <status>0</status>
+                <street>ST JEAN I (MINFFONGOU)</street>
+                <subscriberstatus>ACTIVE</subscriberstatus>
             </return>`
         )
     }
