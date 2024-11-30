@@ -40,8 +40,10 @@ export class MoovMoneyTestServer extends DefaultServer {
     private process(body: string): string {
         if (body.includes('api:Push')) {
             return this.pushTransactionResponse()
-        } else if (body.includes('api:getTransactionStatus>')) {
+        } else if (body.includes('api:getTransactionStatus')) {
             return this.transactionStatusResponse()
+        } else if (body.includes('api:transferFlooz')) {
+            return this.transferFloozResponse()
         }
 
         return ''
@@ -66,6 +68,22 @@ export class MoovMoneyTestServer extends DefaultServer {
                 <referenceid>020190503000000</referenceid>
                 <status>0</status>
             </response>`
+        )
+    }
+
+    private transferFloozResponse() {
+        return this.responseBody(
+            'transferFloozResponse', 
+            `<return>
+                <transactionid>1234567890</transactionid>
+                <status>0</status>
+                <message>Vous avez envoye 10.00 FCFA a 22994512412. Votre nouveau solde Flooz est de 16809.00 FCFA. Ref :920190616000000.</message>
+                <referenceid>920190616000000</referenceid>
+                <senderkeycost/>
+                <senderbonus/>
+                <senderbalancebefore>16819.00</senderbalancebefore>
+                <senderbalanceafter>16809.00</senderbalanceafter>
+            </return>`
         )
     }
 
