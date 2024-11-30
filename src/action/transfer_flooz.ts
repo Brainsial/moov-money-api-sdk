@@ -7,7 +7,7 @@ import { SoapClient } from "#helper/soap_client"
 import { XMLFormater } from "#helper/xml_formater"
 import { BasicActionResponse } from "#type/basic_action_response"
 
-export class TransferFlooz implements ActionContract<TransferFloozRequest, transferFloozResponse> {
+export class TransferFlooz implements ActionContract<TransferFloozRequest, TransferFloozResponse> {
 
     constructor(
         private _soapClient: SoapClient, 
@@ -37,7 +37,7 @@ export class TransferFlooz implements ActionContract<TransferFloozRequest, trans
     }
 
     get requestXml(): string {
-        const requestData : transerFloozApiRequest = {
+        const requestData : TranserFloozApiRequest = {
             token: this._data!.token,
             request: {
                 destination: this._data?.destination ?? '',
@@ -51,13 +51,13 @@ export class TransferFlooz implements ActionContract<TransferFloozRequest, trans
         return XMLFormater.objectToSoapEnvelop(this.action, requestData, [this._apiDomain], 'soapenv')
     }
 
-    public async execute(): Promise<ApiResponse<transferFloozResponse>> {
+    public async execute(): Promise<ApiResponse<TransferFloozResponse>> {
         if (!this._data) throw new BadConfigurationException('Data is not defined')
         if (!this._soapClient) throw new BadConfigurationException('Soap client is not defined')
 
         try {
-            const response = await this._soapClient.post<transferFloozResult>(this.requestXml)
-            return new ApiResponse<transferFloozResponse>(response.return, this._language)
+            const response = await this._soapClient.post<TransferFloozResult>(this.requestXml)
+            return new ApiResponse<TransferFloozResponse>(response.return, this._language)
         } catch (error) {
             throw new ServerErrorException(error.message)
         }
@@ -74,7 +74,7 @@ export type TransferFloozRequest = {
     data?: string
 }
 
-export type transferFloozResponse = BasicActionResponse & {
+export type TransferFloozResponse = BasicActionResponse & {
     transactionid: string
     message: string
     referenceid: string
@@ -82,7 +82,7 @@ export type transferFloozResponse = BasicActionResponse & {
     senderbalanceafter: number
 }
 
-type transerFloozApiRequest =  {
+type TranserFloozApiRequest =  {
     token: string,
     request: {
         destination: string
@@ -93,6 +93,6 @@ type transerFloozApiRequest =  {
     }
 }
 
-type transferFloozResult = {
-    return: transferFloozResponse
+type TransferFloozResult = {
+    return: TransferFloozResponse
 }
