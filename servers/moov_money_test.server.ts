@@ -48,6 +48,8 @@ export class MoovMoneyTestServer extends DefaultServer {
             return this.subscriberBalanceResponse()
         } else if (body.includes('api:getMobileAccountStatus')) {
             return this.mobileStatusResponse()
+        } else if (body.includes('api:cashintrans')) {
+            return this.cashInTranbsactionResponse()
         }
 
         return ''
@@ -119,6 +121,18 @@ export class MoovMoneyTestServer extends DefaultServer {
                 <status>0</status>
                 <street>ST JEAN I (MINFFONGOU)</street>
                 <subscriberstatus>ACTIVE</subscriberstatus>
+            </return>`
+        )
+    }
+
+    private cashInTranbsactionResponse() {
+        return this.responseBody(
+            'cashintransResponse', 
+            `<return>
+                <message>Vous avez envoye 500.00 FCFA a ARIZALA REUGIE 22994512412.Commission recue Hors Taxe. Votre nouveau solde Moov Money est de 96700.00 FCFA. Ref :020190628000017.</message>
+                <referenceid>1000000000000</referenceid>
+                <status>0</status>
+                <transid>020190628000017</transid>
             </return>`
         )
     }
