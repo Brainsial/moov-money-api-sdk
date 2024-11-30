@@ -50,6 +50,8 @@ export class MoovMoneyTestServer extends DefaultServer {
             return this.mobileStatusResponse()
         } else if (body.includes('api:cashintrans')) {
             return this.cashInTranbsactionResponse()
+        } else if (body.includes('api:airtimetrans')) {
+            return this.airtimeTranbsactionResponse()
         }
 
         return ''
@@ -133,6 +135,18 @@ export class MoovMoneyTestServer extends DefaultServer {
                 <referenceid>1000000000000</referenceid>
                 <status>0</status>
                 <transid>020190628000017</transid>
+            </return>`
+        )
+    }
+
+    private airtimeTranbsactionResponse() {
+        return this.responseBody(
+            'cashintransResponse', 
+            `<return>
+                <message>Vous avez recharge de 200.00 FCFA le 22994512412. Votre commission est de 8.00F Votre nouveau solde Flooz est de 95200.00 FCFA. Cout de la transaction 0 FCFA. Ref :020190628000024.</message>
+                <referenceid>120000000</referenceid>
+                <status>0</status>
+                <transid>020190628000024</transid>
             </return>`
         )
     }
