@@ -7,11 +7,11 @@ import { SoapClient } from "#helper/soap_client"
 import { XMLFormater } from "#helper/xml_formater"
 import { BasicActionResponse } from "#type/basic_action_response"
 
-export class TransactionStatus implements ActionContract<TracsactionStatusRequest, tracsactionStatusResponse> {
+export class TransactionStatus implements ActionContract<TransactionStatusRequest, transactionStatusResponse> {
 
     constructor(
         private _soapClient: SoapClient, 
-        private _data?: TracsactionStatusRequest, 
+        private _data?: TransactionStatusRequest, 
         private action = 'api:getTransactionStatus',
         private _apiDomain: string = 'xmlns:api="http://api.merchant.tlc.com/"',
         private _language: keyof StatusMessages = 'en'
@@ -31,7 +31,7 @@ export class TransactionStatus implements ActionContract<TracsactionStatusReques
         return this
     }
 
-    data(data: TracsactionStatusRequest): this {
+    data(data: TransactionStatusRequest): this {
         this._data = data;
         return  this
     }
@@ -47,13 +47,13 @@ export class TransactionStatus implements ActionContract<TracsactionStatusReques
         return XMLFormater.objectToSoapEnvelop(this.action, requestData, [this._apiDomain], 'soapenv')
     }
 
-    public async execute(): Promise<ApiResponse<tracsactionStatusResponse>> {
+    public async execute(): Promise<ApiResponse<transactionStatusResponse>> {
         if (!this._data) throw new BadConfigurationException('Data is not defined')
         if (!this._soapClient) throw new BadConfigurationException('Soap client is not defined')
 
         try {
-            const response = await this._soapClient.post<tracsactionStatusResult>(this.requestXml)
-            return new ApiResponse<tracsactionStatusResponse>(response.response, this._language)
+            const response = await this._soapClient.post<transactionStatusResult>(this.requestXml)
+            return new ApiResponse<transactionStatusResponse>(response.response, this._language)
         } catch (error) {
             throw new ServerErrorException(error.message)
         }
@@ -61,12 +61,12 @@ export class TransactionStatus implements ActionContract<TracsactionStatusReques
 }
 
 
-export type TracsactionStatusRequest = {
+export type TransactionStatusRequest = {
     token: string
     transactionid: string
 }
 
-export type tracsactionStatusResponse = BasicActionResponse & {
+export type transactionStatusResponse = BasicActionResponse & {
     description: string
 }
 
@@ -77,7 +77,7 @@ type transactionStatusApiRequest =  {
     }
 }
 
-type tracsactionStatusResult = {
-    response: tracsactionStatusResponse
+type transactionStatusResult = {
+    response: transactionStatusResponse
 }
 
