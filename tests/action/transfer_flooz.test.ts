@@ -43,11 +43,14 @@ describe('TransferFlooz tests', () => {
         try {
             const response = await action.execute()
 
-            expect(response.data.status).toMatchInlineSnapshot(`"0"`)
-            expect(response.description).toMatchInlineSnapshot(`"Success"`)
-            expect(response.data.message).toMatchInlineSnapshot(`"Vous avez envoye 10.00 FCFA a 22994512412. Votre nouveau solde Flooz est de 16809.00 FCFA. Ref :920190616000000."`)
-            expect(response.message).toMatchInlineSnapshot(`"Transaction Completed"`)
-            expect(response.data.referenceid).toMatchInlineSnapshot(`"920190616000000"`)
+            expect(response.data.status).toBe(`0`)
+            expect(response.description).toBe(`Success`)
+            expect(response.data.message).toBe(`Vous avez envoye 10.00 FCFA a 22994512412. Votre nouveau solde Flooz est de 16809.00 FCFA. Ref :920190616000000.`)
+            expect(response.message).toBe(`Transaction Completed`)
+            expect(response.data.referenceid).toBe(`920190616000000`)
+            expect(response.data.transactionid).toBe(`1234567890`)
+            expect(response.data.senderbalancebefore).toBe(`16819.00`)
+            expect(response.data.senderbalanceafter).toBe(`16809.00`)
         } catch (error) {
             expect.fail('Should throw an error')
         }
