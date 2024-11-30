@@ -44,6 +44,8 @@ export class MoovMoneyTestServer extends DefaultServer {
             return this.transactionStatusResponse()
         } else if (body.includes('api:transferFlooz')) {
             return this.transferFloozResponse()
+        } else if (body.includes('api:getBalance')) {
+            return this.subscriberBalanceResponse()
         }
 
         return ''
@@ -83,6 +85,17 @@ export class MoovMoneyTestServer extends DefaultServer {
                 <senderbonus/>
                 <senderbalancebefore>16819.00</senderbalancebefore>
                 <senderbalanceafter>16809.00</senderbalanceafter>
+            </return>`
+        )
+    }
+
+    private subscriberBalanceResponse() {
+        return this.responseBody(
+            'getBalanceResponse', 
+            `<return>
+                <balance>382222</balance>
+                <message>SUCCESS</message>
+                <status>0</status>
             </return>`
         )
     }
