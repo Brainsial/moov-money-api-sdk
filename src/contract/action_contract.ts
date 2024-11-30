@@ -1,9 +1,9 @@
+import { StatusCode } from "#common/data/status_code";
 import { StatusMessages } from "#common/interfaces/status_messages";
 import { ApiResponse } from "#data/api_response";
 import { SoapClient } from "#helper/soap_client";
-import { BasicActionResponse } from "#type/basic_action_response";
 
-export abstract class ActionContract<D, R extends BasicActionResponse> {
+export abstract class ActionContract<D, R extends { status: StatusCode }> {
     abstract data(data: D): this
 
     abstract get requestXml(): string
