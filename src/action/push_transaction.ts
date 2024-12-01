@@ -77,12 +77,11 @@ export type PushTracsactionResponse = BasicActionResponse & {
     message: string
 }
 
-type PushTransactionApiRequest = Omit<PushTracsactionRequest, 'data1|data2'> & {
-    // fee: number
+export type PushTransactionApiRequest = Omit<PushTracsactionRequest, 'data1|data2'> & {
     externaldata1: string
     externaldata2: string
 }
 
-type PushTracsactionResult = {
+export type PushTracsactionResult = {
     return : PushTracsactionResponse
 }
