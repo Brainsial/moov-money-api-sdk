@@ -1,18 +1,19 @@
-import { StatusMessages } from "#common/interfaces/status_messages"
-import { ActionContract } from "#contract/action_contract"
-import { ApiResponse } from "#data/api_response"
-import { BadConfigurationException } from "#exception/bad_configuration_exception"
-import { ServerErrorException } from "#exception/server_error_exception"
-import { SoapClient } from "#helper/soap_client"
-import { XMLFormater } from "#helper/xml_formater"
-import { BasicActionResponse } from "#type/basic_action_response"
+import { StatusMessages } from "#common/interfaces/status_messages";
+import { ActionContract } from "#contract/action_contract";
+import { ApiResponse } from "#data/api_response";
+import { BadConfigurationException } from "#exception/bad_configuration_exception";
+import { ServerErrorException } from "#exception/server_error_exception";
+import { SoapClient } from "#helper/soap_client";
+import { XMLFormater } from "#helper/xml_formater";
+import { BasicActionResponse } from "#type/basic_action_response";
+import { PushTransactionRequest, PushTransactionApiRequest } from "./push_transaction";
 
-export class PushTracsaction implements ActionContract<PushTransactionRequest, PushTransactionResponse> {
-
+export class PushTracsactionWithPending implements ActionContract<PushTransactionRequest, PushTransactionWithPendingResponse> {
+    
     constructor(
         private _soapClient: SoapClient, 
         private _data?: PushTransactionRequest, 
-        private action = 'api:Push',
+        private action = 'api:PushWithPending',
         private _apiDomain: string = 'xmlns:api="http://api.merchant.tlc.com/"',
         private _language: keyof StatusMessages = 'en'
     ) { }
@@ -50,38 +51,26 @@ export class PushTracsaction implements ActionContract<PushTransactionRequest, P
         return XMLFormater.objectToSoapEnvelop(this.action, requestData, [this._apiDomain], 'soapenv')
     }
 
-    public async execute(): Promise<ApiResponse<PushTransactionResponse>> {
+    public async execute(): Promise<ApiResponse<PushTransactionWithPendingResponse>> {
         if (!this._data) throw new BadConfigurationException('Data is not defined')
         if (!this._soapClient) throw new BadConfigurationException('Soap client is not defined')
-        
-        const response = await this._soapClient.post<PushTracsactionResult>(this.requestXml)
+    
+        const response = await this._soapClient.post<PushTracsactionWithPendingResult>(this.requestXml)
 
         if ( !response ) throw new ServerErrorException('Response is not defined')
+        
 
-        return new ApiResponse<PushTransactionResponse>(response.return, this._language)
+        return new ApiResponse<PushTransactionWithPendingResponse>(response.result, this._language)
     }
+    
 }
 
-
-export type PushTransactionRequest = {
-    token: string
-    msisdn: string
-    message: string
-    amount: number
-    data1?: string
-    data2?: string
-    fee?: number
+export type PushTransactionWithPendingResponse = Omit<BasicActionResponse, 'referenceid'> & {
+    description: string
+    transid?: string,
+    referenceid?: string
 }
 
-export type PushTransactionResponse = BasicActionResponse & {
-    message: string
-}
-
-export type PushTransactionApiRequest = Omit<PushTransactionRequest, 'data1|data2'> & {
-    externaldata1: string
-    externaldata2: string
-}
-
-type PushTracsactionResult = {
-    return : PushTransactionResponse
+type PushTracsactionWithPendingResult = {
+    result : PushTransactionWithPendingResponse
 }

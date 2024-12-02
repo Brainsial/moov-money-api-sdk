@@ -24,9 +24,9 @@ export const STATUS_DESCRIPTION: StatusMap = {
       es: 'Número no válido'
     },
     '4': {
-      en: '',
-      fr: '',
-      es: ''
+      en: 'The user does not have permission to perform this action',
+      fr: 'L\'utilisateur n\'a pas les permissions pour effectuer cette action',
+      es: 'El usuario no tiene permiso para realizar estaacción'
     },
     '6': {
       en: 'Destination is not allowed to receive a transfer',
@@ -129,9 +129,9 @@ export const STATUS_DESCRIPTION: StatusMap = {
       es: 'El sistema está ocupado'
     },
     '100': {
-      en: '',
-      fr: '',
-      es: ''
+      en: 'In pending state',
+      fr: 'En attente',
+      es: 'En estado pendiente'
     },
     '-1': {
       en: 'System Busy',
@@ -139,8 +139,8 @@ export const STATUS_DESCRIPTION: StatusMap = {
       es: 'El sistema está ocupado'
     },
     '555': {
-      en: 'Not Registered',
-      fr: 'Non enregistré',
-      es: 'No registrado'
+      en: 'Not Registered: Destination Subscriber is not registered on Moov Money',
+      fr: 'Non enregistré: L\'abonné destinataire n\'est pas enregistré sur Moov Money',
+      es: 'No registrado: El suscriptor de destino no está registrado en Moov Money'
     }
 }

@@ -22,7 +22,7 @@ describe('PushTransaction tests', () => {
     it('Should return the right xml envelop when data is provided', async () => {
         action = action.data({
             token: 'u+voBudlTCZr4BVj9UcTJOcF/GHH6GPTf2xs0PMZXs0=',
-            msisdn: 'msisdn<',
+            msisdn: '22995155936',
             message: 'Please input your password',
             amount: 100,
             fee: 0
@@ -34,7 +34,7 @@ describe('PushTransaction tests', () => {
                       <soapenv:Header/>
                       <soapenv:Body>
                           <api:Push>
-                              <token>u+voBudlTCZr4BVj9UcTJOcF/GHH6GPTf2xs0PMZXs0=</token><msisdn>msisdn<</msisdn><message>Please input your password</message><amount>100</amount><externaldata1></externaldata1><externaldata2></externaldata2><fee>0</fee>
+                              <token>u+voBudlTCZr4BVj9UcTJOcF/GHH6GPTf2xs0PMZXs0=</token><msisdn>22995155936</msisdn><message>Please input your password</message><amount>100</amount><externaldata1></externaldata1><externaldata2></externaldata2><fee>0</fee>
                           </api:Push>
                       </soapenv:Body>
                   </soapenv:Envelope>
