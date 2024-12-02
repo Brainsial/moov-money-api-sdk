@@ -4,7 +4,7 @@ import { CashInTranbsaction }  from '#action/cash_in_transaction';
 import { SoapClient } from '#helper/soap_client';
 import { BadConfigurationException } from '#exception/bad_configuration_exception';
 
-describe('MobileStatus tests', () => {
+describe('CashInTranbsaction tests', () => {
     let action = CashInTranbsaction.init(new SoapClient({ baseUrl: `http://localhost:3355`}))
 
 
