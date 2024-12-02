@@ -38,7 +38,9 @@ export class MoovMoneyTestServer extends DefaultServer {
     }
 
     private process(body: string): string {
-        if (body.includes('api:Push')) {
+        if (body.includes('api:PushWithPending')) {
+            return this.pushTransactionWithPendingResponse(body.includes('<msisdn>22995155936</msisdn>'))
+        } else if (body.includes('api:Push')) {
             return this.pushTransactionResponse()
         } else if (body.includes('api:getTransactionStatus')) {
             return this.transactionStatusResponse()
@@ -148,6 +150,24 @@ export class MoovMoneyTestServer extends DefaultServer {
                 <status>0</status>
                 <transid>020190628000024</transid>
             </return>`
+        )
+    }
+
+    private pushTransactionWithPendingResponse(pending: boolean) {
+        console.log({pending});
+        
+        return this.responseBody(
+            'PushWithPendingResponse', 
+            pending ? `<result>
+                <description>IN PENDING STATE</description>
+                <status>100</status>
+            </result>`
+            : `<result>
+                <description>SUCCESS</description>
+                <referenceid>720220120000006</referenceid>
+                <status>0</status>
+                <transid>pi_NyM_1642619082990</transid>
+            </result>`
         )
     }
 
