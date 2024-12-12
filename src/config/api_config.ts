@@ -66,7 +66,7 @@ export class ApiConfig implements AppConfigContract {
     }
 
     get isValid(): boolean {
-        return this.config.username.length > 0 && this.config.password.length > 0 && this.config.baseUrl.length > 0
+        return this.config.username.length > 0 && this.config.password.length > 0 && this.config.baseUrl.length > 0 && this.config.username != 'username' && this.config.password != 'password'
     }
 
 }

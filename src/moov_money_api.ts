@@ -16,24 +16,38 @@ import { APIConfigData } from '#type/api_config_data';
 
 export class MoovMoneyAPi implements MoovMoneyApiContract {
 
-    private soapClient: SoapClient
-    private encryptionAgent: EnryptionAgent
+    private _soapClient: SoapClient
+    private _encryptionAgent: EnryptionAgent
 
     /**
      * Construct a new instance of the MoovMoney API
+     * 
      * @param {ApiConfig} config the configuration for the MoovMoney API
      * @throws {BadConfigurationException} if the configuration is invalid
      */
     constructor(private readonly config: ApiConfig) {
         if (!this.config.isValid) throw new BadConfigurationException('Api configuration is invalid')
 
-        this.soapClient = new SoapClient(this.config)
-        this.encryptionAgent = new EnryptionAgent(this.config)
+        this._soapClient = new SoapClient(this.config)
+        this._encryptionAgent = new EnryptionAgent(this.config)
     }
 
     /**
+     * Returns the SOAP client used by the MoovMoney API SDK
+     * 
+     * @returns {SoapClient} the SOAP client used by the MoovMoney API
+     */
+    get soapClient(): SoapClient { return this._soapClient }
+
+    /**
      * Creates a new instance of the MoovMoney API from a given configuration
+     * 
      * @param {APIConfigData} config the configuration for the MoovMoney API
+     * @param {string} config.username The username for the Moov Money API
+     * @param {string} config.password The password for the Moov Money API
+     * @param {string} config.baseUrl The URL of the Moov Money API
+     * @param {string} config.language The language for the Moov Money API (default: 'en') 
+     * @param {number} config.requestTimeout The request timeout (seconds) for the Moov Money API (default: 60)
      * @returns {MoovMoneyAPi} a new instance of the MoovMoney API
      */
     static fromConfig(config: APIConfigData): MoovMoneyAPi {
@@ -41,7 +55,8 @@ export class MoovMoneyAPi implements MoovMoneyApiContract {
     }
 
     /**
-     * Mobile Wallet payment to Merchant integrator via USSD PUSH
+     * Sends a push transaction request to Moov Money API.
+     * 
      * @param {Omit<PushTransactionRequest, "token">} data the data for the push transaction
      * @param {string} data.msisdn Mobile Number
      * @param {string} data.message Push Message Notification
@@ -51,68 +66,16 @@ export class MoovMoneyAPi implements MoovMoneyApiContract {
      * @param {number} data.fee Merchant Fee (optional)
      * @returns {Promise<ApiResponse<PushTransactionResponse>>} the result of the push transaction
      */
-    push(data: Omit<PushTransactionRequest, "token">): Promise<ApiResponse<PushTransactionResponse>> {
-        return PushTracsaction.init(this.soapClient)
+    pushTransaction(data: Omit<PushTransactionRequest, "token">): Promise<ApiResponse<PushTransactionResponse>> {
+        return PushTracsaction.init(this._soapClient)
             .language(this.config.language)
-            .client(this.soapClient).data({...data, token : this.encryptionAgent.token})
+            .client(this._soapClient).data({...data, token : this._encryptionAgent.token})
         .execute()
     }
 
     /**
-     * Mobile Wallet payment checking merchant transactions
-     * @param {string} id Transaction ID
-     * @returns {Promise<ApiResponse<transactionStatusResponse>>} the result of the transaction status retrieval
-     */
-    transactionStatus(id: string): Promise<ApiResponse<transactionStatusResponse>> {
-        return TransactionStatus.init(this.soapClient)
-            .language(this.config.language)
-            .client(this.soapClient).data({ transactionid: id, token : this.encryptionAgent.token})
-        .execute()
-    }
-
-    /**
-     * Merchant transfer a funds to an account which allowed by the configurations.
-     * @param {Omit<TransferFloozRequest, "token">} data the data for the transfer
-     * @param {string} data.destination Destination msisdn
-     * @param {number} data.amount Amount of transaction
-     * @param {string} data.referenceid Transaction id of Mechant
-     * @param {string} data.data Remarks (optional)
-     * @param {string} data.wallet Wallet ID (Default 0) (optional)
-     * @returns {Promise<ApiResponse<TransferFloozResponse>>} the result of the transfer
-     */
-    transferFlooz(data: Omit<TransferFloozRequest, 'token'>): Promise<ApiResponse<TransferFloozResponse>> {
-        return TransferFlooz.init(this.soapClient)
-            .language(this.config.language)
-            .client(this.soapClient).data({...data, token : this.encryptionAgent.token})
-        .execute()
-    }
-
-    /**
-     * To check the current balance of subscribers, default of main wallet (walletID 0).
-     * @param {string} msisdn Subscriber number
-     * @returns {Promise<ApiResponse<SubscriberBalanceResponse>>} the result of the balance retrieval
-     */
-    subscriberBalance(msisdn: string): Promise<ApiResponse<SubscriberBalanceResponse>> {
-        return SubscriberBalance.init(this.soapClient)
-            .language(this.config.language)
-            .client(this.soapClient).data({ msisdn, token : this.encryptionAgent.token})
-        .execute()
-    }
-
-    /**
-     * To check the status of subscriber and KYC informations
-     * @param {string} msisdn Subscriber number
-     * @returns {Promise<ApiResponse<MovileStatusResponse>>} the result of the status retrieval
-     */
-    mobileStatus(msisdn: string): Promise<ApiResponse<MovileStatusResponse>> {
-        return MobileStatus.init(this.soapClient)
-            .language(this.config.language)
-            .client(this.soapClient).data({ msisdn, token : this.encryptionAgent.token})
-        .execute()
-    }
-
-    /**
-     * Mobile Wallet payment to Merchant integrator via USSD PUSH WITH PENDING
+     * Sends a push transaction with pending status to Moov Money API.
+     * 
      * @param {Omit<PushTransactionRequest, "token">} data the data for the push transaction
      * @param {string} data.msisdn Mobile Number
      * @param {string} data.message Push Message Notification
@@ -122,15 +85,73 @@ export class MoovMoneyAPi implements MoovMoneyApiContract {
      * @param {number} data.fee Merchant Fee (optional)
      * @returns {Promise<ApiResponse<PushTransactionWithPendingResponse>>} the result of the push transaction
      */
-    pushWithPending(data: Omit<PushTransactionRequest, 'token'>): Promise<ApiResponse<PushTransactionWithPendingResponse>> {
-        return PushTracsactionWithPending.init(this.soapClient)
+    pushWithPendingTransaction(data: Omit<PushTransactionRequest, 'token'>): Promise<ApiResponse<PushTransactionWithPendingResponse>> {
+        return PushTracsactionWithPending.init(this._soapClient)
             .language(this.config.language)
-            .client(this.soapClient).data({...data, token : this.encryptionAgent.token})
+            .client(this._soapClient).data({...data, token : this._encryptionAgent.token})
         .execute()
     }
 
     /**
-     * To do a CASHIN transaction for subscriber
+     * Checks the status of a transaction using its reference ID.
+     * 
+     * @param {string} id Transaction ID
+     * @returns {Promise<ApiResponse<transactionStatusResponse>>} the result of the transaction status retrieval
+     */
+    getTransactionStatus(id: string): Promise<ApiResponse<transactionStatusResponse>> {
+        return TransactionStatus.init(this._soapClient)
+            .language(this.config.language)
+            .client(this._soapClient).data({ transactionid: id, token : this._encryptionAgent.token})
+        .execute()
+    }
+
+    /**
+     * Merchant transfer a funds to an account which allowed by the configurations.
+     * 
+     * @param {Omit<TransferFloozRequest, "token">} data the data for the transfer
+     * @param {string} data.destination Destination msisdn
+     * @param {number} data.amount Amount of transaction
+     * @param {string} data.referenceid Transaction id of Mechant
+     * @param {string} data.data Remarks (optional)
+     * @param {string} data.wallet Wallet ID (Default 0) (optional)
+     * @returns {Promise<ApiResponse<TransferFloozResponse>>} the result of the transfer
+     */
+    transferFlooz(data: Omit<TransferFloozRequest, 'token'>): Promise<ApiResponse<TransferFloozResponse>> {
+        return TransferFlooz.init(this._soapClient)
+            .language(this.config.language)
+            .client(this._soapClient).data({...data, token : this._encryptionAgent.token})
+        .execute()
+    }
+
+    /**
+     * To check the current balance of subscribers, default of main wallet (walletID 0).
+     * 
+     * @param {string} phone Subscriber phone number
+     * @returns {Promise<ApiResponse<SubscriberBalanceResponse>>} the result of the balance retrieval
+     */
+    getBalance(phone: string): Promise<ApiResponse<SubscriberBalanceResponse>> {
+        return SubscriberBalance.init(this._soapClient)
+            .language(this.config.language)
+            .client(this._soapClient).data({ msisdn: phone, token : this._encryptionAgent.token})
+        .execute()
+    }
+
+    /**
+     * To check the status of subscriber and KYC informations
+     * 
+     * @param {string} phone Subscriber number
+     * @returns {Promise<ApiResponse<MovileStatusResponse>>} the result of the status retrieval
+     */
+    getMobileStatus(phone: string): Promise<ApiResponse<MovileStatusResponse>> {
+        return MobileStatus.init(this._soapClient)
+            .language(this.config.language)
+            .client(this._soapClient).data({ msisdn: phone, token : this._encryptionAgent.token})
+        .execute()
+    }
+
+    /**
+     * To do a CASHIN transaction for subscribers
+     * 
      * @param {Omit<CashInTranbsactionRequest, "token">} data the data for the cash-in transaction
      * @param {string} data.destination Subscriber destination number
      * @param {number} data.amount Amount of transaction
@@ -139,15 +160,16 @@ export class MoovMoneyAPi implements MoovMoneyApiContract {
      * @returns {Promise<ApiResponse<CashInTranbsactionResponse>>} the result of the cash-in transaction
      */
     cashIn(data: Omit<CashInTranbsactionRequest, 'token'>): Promise<ApiResponse<CashInTranbsactionResponse>> {
-        return CashInTranbsaction.init(this.soapClient)
+        return CashInTranbsaction.init(this._soapClient)
             .language(this.config.language)
-            .client(this.soapClient).data({...data, token : this.encryptionAgent.token})
+            .client(this._soapClient).data({...data, token : this._encryptionAgent.token})
         .execute()
     }
 
 
     /**
-     * To do an Airtime transaction for subscriber
+     * To do an Airtime transaction for subscribers
+     * 
      * @param {Omit<AirtimeTranbsactionRequest, "token">} data the data for the airtime transaction
      * @param {string} data.destination Subscriber destination number
      * @param {number} data.amount Amount of transaction
@@ -156,9 +178,9 @@ export class MoovMoneyAPi implements MoovMoneyApiContract {
      * @returns {Promise<ApiResponse<AirtimeTranbsactionResponse>>} the result of the airtime transaction
      */
     airtime(data: Omit<AirtimeTranbsactionRequest, 'token'>): Promise<ApiResponse<AirtimeTranbsactionResponse>> {
-        return AirtimeTransaction.init(this.soapClient)
+        return AirtimeTransaction.init(this._soapClient)
             .language(this.config.language)
-            .client(this.soapClient).data({...data, token : this.encryptionAgent.token})
+            .client(this._soapClient).data({...data, token : this._encryptionAgent.token})
         .execute()
     }
     

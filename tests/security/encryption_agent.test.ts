@@ -6,9 +6,9 @@ describe('EncryptionAgent tests', () => {
     it('Should trow InvalidArgumentException when encryption key length is not invalid', () => {
         expect(() => {
             new EnryptionAgent({
-                username: 'username',
-                password: 'password',
-                encryptionKey: 'invalidKey'
+                username: 'myusername',
+                password: 'myusername',
+                encryptionKey: 'mypassword'
             })
         }).toThrow(InvalidArgumentException)
     })
