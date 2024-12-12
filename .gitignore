@@ -16,10 +16,6 @@ public/assets
 npm-debug.log
 yarn-error.log
 
-# lock files
-package-lock.json
-yarn.lock
-
 # Editors specific
 .fleet
 .idea
