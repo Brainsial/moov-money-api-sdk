@@ -1,4 +1,4 @@
-![image](brainsial.github.io/moov-money-api-sdk/assets/images/moov_money_sdk.png)
+![image](https://brainsial.github.io/moov-money-api-sdk/assets/images/moov_money_sdk.png)
 
 <p align="center">
   <br/>
