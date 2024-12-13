@@ -1,6 +1,7 @@
 {
-  "name": "moov-money-api-sdk",
   "version": "1.0.0",
+  "license": "MIT",
+  "name": "moov-money-api-sdk",
   "description": "Library designed to facilitate Moov Money API integration.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -24,12 +25,12 @@
     "url": "git+https://github.com/Brainsial/moov-money-api-sdk.git"
   },
   "author": "",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/Brainsial/moov-money-api-sdk/issues"
   },
   "homepage": "https://github.com/Brainsial/moov-money-api-sdk#readme",
   "devDependencies": {
+    "@adonisjs/tsconfig": "^1.4.0",
     "@types/node": "^22.9.0",
     "@types/xml2js": "^0.4.14",
     "typescript": "^5.6.3",
