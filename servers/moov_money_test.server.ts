@@ -1,4 +1,4 @@
-import { DefaultServer } from "./default.server";
+import { DefaultServer } from "./default.server.js";
 
 export class MoovMoneyTestServer extends DefaultServer {
     protected _port: number = 3355

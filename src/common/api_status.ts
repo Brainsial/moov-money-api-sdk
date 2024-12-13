@@ -1,7 +1,7 @@
-import { StatusCode } from "./data/status_code";
-import { STATUS_DESCRIPTION } from "./data/status_description";
-import { STATUS_MESSAGES } from "./data/status_messages";
-import { StatusMessages } from "./interfaces/status_messages";
+import { StatusCode } from "#common/data/status_code";
+import { STATUS_DESCRIPTION } from "#common/data/status_description";
+import { STATUS_MESSAGES } from "#common/data/status_messages";
+import { StatusMessages } from "#common/interfaces/status_messages";
 
 export class ApiStatus {
 

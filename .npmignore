@@ -24,5 +24,12 @@ yarn-error.log
 # Platform specific
 .DS_Store
 
-# Build files
-/dist
+# main project dirs
+src
+servers
+tests 
+
+# config files
+tsconfig.json
+tsup.config.ts
+

@@ -6,7 +6,7 @@ import { ServerErrorException } from "#exception/server_error_exception";
 import { SoapClient } from "#helper/soap_client";
 import { XMLFormater } from "#helper/xml_formater";
 import { BasicActionResponse } from "#type/basic_action_response";
-import { PushTransactionRequest, PushTransactionApiRequest } from "./push_transaction";
+import { PushTransactionRequest, PushTransactionApiRequest } from "#action//push_transaction";
 
 export class PushTracsactionWithPending implements ActionContract<PushTransactionRequest, PushTransactionWithPendingResponse> {
     
