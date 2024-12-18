@@ -7,6 +7,7 @@ export abstract class AppConfigContract {
     abstract get language(): keyof StatusMessages
     abstract get encryptionKey(): string
     abstract get requestTimeout(): number
+    abstract get isSandbox(): boolean
     abstract get isValid(): boolean
 
     abstract set username(username: string)

@@ -23,6 +23,9 @@ export class ApiConfig implements AppConfigContract {
             requestTimeout: configData.requestTimeout || 60
         }
     }
+    get isSandbox(): boolean {
+        return this.config.useSandbox
+    }
     
     get username(): string {
         return this.config.username
