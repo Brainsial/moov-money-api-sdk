@@ -45,7 +45,6 @@ export class MoovMoneyAPi implements MoovMoneyApiContract {
      * @param {APIConfigData} config the configuration for the MoovMoney API
      * @param {string} config.username The username for the Moov Money API
      * @param {string} config.password The password for the Moov Money API
-     * @param {string} config.baseUrl The URL of the Moov Money API
      * @param {string} config.language The language for the Moov Money API (default: 'en') 
      * @param {number} config.requestTimeout The request timeout (seconds) for the Moov Money API (default: 60)
      * @returns {MoovMoneyAPi} a new instance of the MoovMoney API

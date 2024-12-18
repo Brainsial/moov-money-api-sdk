@@ -12,9 +12,10 @@ export type APIConfigData = {
     password: string,
 
     /**
-     * Your Moov Money API base URL.
+     * Use the sandbox environment.
+     * Optional and defaults to true.
      */
-    baseUrl: string,
+    useSandbox?: boolean
 
     /**
      * Your Moov Money API language.

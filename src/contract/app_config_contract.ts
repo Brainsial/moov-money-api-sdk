@@ -12,6 +12,7 @@ export abstract class AppConfigContract {
     abstract set username(username: string)
     abstract set password(password: string)
     abstract set baseUrl(baseUrl: string)
+    abstract set useSandbox(useSandbox: boolean)
     abstract set language(language: keyof StatusMessages)
     abstract set encryptionKey(encryptionKey: string)
     abstract set requestTimeout(requestTimeout: number)

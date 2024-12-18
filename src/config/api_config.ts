@@ -4,13 +4,20 @@ import { APIConfigData } from "#type/api_config_data";
 
 export class ApiConfig implements AppConfigContract {
 
+    private static url = {
+        sandboxUrl: 'https://testapimarchand2.moov-africa.bj:2010/com.tlc.merchant.api/UssdPush?wsdl',
+        productionUrl: 'https://apimarchand.moov-africa.bj/com.tlc.merchant.api/UssdPush?wsdl'
+    }
+
+    private _baseUrl: string | null = null;
+
     private config : ApiConfigDataUsable
 
     constructor(configData: APIConfigData) { 
         this.config = {
             username: configData.username,
             password: configData.password,
-            baseUrl: configData.baseUrl,
+            useSandbox: configData.useSandbox || true,
             language: configData.language ?? 'en',
             encryptionKey: configData.encryptionKey || 'tlc12345tlc12345tlc12345tlc12345',
             requestTimeout: configData.requestTimeout || 60
@@ -42,11 +49,11 @@ export class ApiConfig implements AppConfigContract {
     }
 
     get baseUrl(): string {
-        return this.config.baseUrl
+        return this._baseUrl ?? this.config.useSandbox ? ApiConfig.url.sandboxUrl : ApiConfig.url.productionUrl
     }
 
     set baseUrl(baseUrl: string) {
-        this.config.baseUrl = baseUrl
+        this._baseUrl = baseUrl
     }
 
     get encryptionKey(): string {
@@ -65,8 +72,12 @@ export class ApiConfig implements AppConfigContract {
         this.config.requestTimeout = requestTimeout
     }
 
+    set useSandbox(useSandbox: boolean) {
+        if(this.config.useSandbox != useSandbox) this.config.useSandbox = useSandbox
+    }
+
     get isValid(): boolean {
-        return this.config.username.length > 0 && this.config.password.length > 0 && this.config.baseUrl.length > 0 && this.config.username != 'username' && this.config.password != 'password'
+        return this.config.username.length > 0 && this.config.password.length > 0 && this.config.username != 'username' && this.config.password != 'password'
     }
 
 }

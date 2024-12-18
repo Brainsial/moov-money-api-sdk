@@ -6,12 +6,11 @@ describe('ApiConfig tests', () => {
         const apiConfig = new ApiConfig({
             username: 'myusername',
             password: 'mypassword',
-            baseUrl: 'https://example.com',
         })
 
         expect(apiConfig.username).toBe('myusername')
         expect(apiConfig.password).toBe('mypassword')
-        expect(apiConfig.baseUrl).toBe('https://example.com')
+        expect(apiConfig.baseUrl).toMatchInlineSnapshot(`"https://testapimarchand2.moov-africa.bj:2010/com.tlc.merchant.api/UssdPush?wsdl"`)
         expect(apiConfig.encryptionKey).toBe('tlc12345tlc12345tlc12345tlc12345')
         expect(apiConfig.requestTimeout).toBe(60)
     })
@@ -20,9 +19,7 @@ describe('ApiConfig tests', () => {
         const apiConfig = new ApiConfig({
             username: 'myusername',
             password: 'mypassword',
-            baseUrl: 'https://example.com',
             encryptionKey: 'tlc12345tlc12345tlc12345tlc12345',
-            requestTimeout: 60
         }) 
 
         expect(apiConfig.isValid).toBeTruthy()

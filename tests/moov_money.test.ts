@@ -10,10 +10,8 @@ describe('MoovMoneyAPi tests', () => {
 
     const wrongConfig = {
         username: 'username', 
-        password: 'password', 
-        baseUrl: 'http://localhost:3355' 
+        password: 'password',
     }
-
 
     it('Should throw an error when configuration is invalid (constructor)', () => {
         try {
@@ -38,8 +36,7 @@ describe('MoovMoneyAPi tests', () => {
     
     const validConfig = {
         username: 'myusername', 
-        password: 'mypassword', 
-        baseUrl: 'http://localhost:3355' 
+        password: 'mypassword',
     }
 
     it('Should create a new instance of the MoovMoney API (constructor)', () => {
